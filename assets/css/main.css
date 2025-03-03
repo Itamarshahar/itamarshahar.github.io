@@ -1075,7 +1075,12 @@ input, select, textarea {
 		}
 
 	/* Header */
-.button {
+		#header nav {
+			padding: 0 1em;
+		} }
+
+
+.resume-button {
     display: inline-block;
     padding: 12px 20px;
     font-size: 1.2em;
@@ -1086,11 +1091,9 @@ input, select, textarea {
     font-weight: bold;
     margin-top: 20px;
     transition: background 0.3s ease;
+    text-align: center;
 }
 
-.button:hover {
+.resume-button:hover {
     background: #0056b3;
 }
-		#header nav {
-			padding: 0 1em;
-		} }
