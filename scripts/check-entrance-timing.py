@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
-"""Assert the page entrance stays snappy.
+"""Assert the page's motion stays correct and snappy.
 
-This is the only screen on the site and the sequence gates every link on it,
-so the whole entrance must settle well inside a second. The template shipped
+This is the only screen on the site and the entrance gates every link on it,
+so the whole sequence must settle well inside a second. The template shipped
 at 3.75s; regressing there makes the page feel like it is buffering.
 
-Run: python3 scripts/check-entrance-timing.py
+Beyond the budget it guards the three properties that are easy to undo by
+accident and invisible in review: press and hover must move the compositor
+rather than the layout, hover must not fire on touch, and reduced motion must
+still deliver the content.
+
+Run:  python3 scripts/check-entrance-timing.py [path/to/main.css]
+
+The optional path exists so the assertions can be mutation-tested - pointed at
+a deliberately broken copy to prove each one actually fails. An assertion
+never seen to fail is not a test.
 """
 import re
 import sys
@@ -22,8 +31,8 @@ def ms(value: str) -> float:
     return float(value[:-2]) if value.endswith("ms") else float(value[:-1]) * 1000
 
 
-def main() -> int:
-    css = CSS.read_text()
+def main(css_path: pathlib.Path = CSS) -> int:
+    css = css_path.read_text()
     failures = []
 
     # Unprefixed `animation: <name> <duration> [delay] ...` shorthands.
@@ -69,6 +78,42 @@ def main() -> int:
             f"{raw_easing} raw cubic-bezier literal(s) in assets/sass/main.scss - "
             "use _easing() so the curve is defined once in _vars.scss")
 
+    # --- Row 2: hover moves the compositor, and never fires on touch ---------
+    if not re.search(r"#header nav a:hover:before \{[^}]*transform: scale\(", css):
+        failures.append(
+            "nav hover does not scale via transform - the hover grow must be a "
+            "transform on the ::before, not a size change that reflows the row")
+    if not re.search(r"\(hover: hover\) and \(pointer: fine\)", css):
+        failures.append(
+            "hover styles are not gated behind (hover: hover) and (pointer: fine) - "
+            "they will fire on touch, where there is no hover to leave")
+    if re.search(r"#header nav a:before \{[^}]*transition: all", css):
+        failures.append(
+            "nav transition uses `all` - name the properties, or every future "
+            "property added to this rule silently animates too")
+
+    # --- Row 3: press feedback ------------------------------------------------
+    if not re.search(r"#header nav a:active:before \{[^}]*transform: scale\(0\.97\)", css):
+        failures.append(
+            "press feedback is not transform: scale(0.97) on the ::before - the "
+            "Resume link opens a PDF in a new tab and the press must register first")
+    if not re.search(r"#header nav a:active:before \{[^}]*transition-duration: 0\.16s", css):
+        failures.append("press feedback is not 160ms")
+
+    # --- Row 4: reduced motion still delivers the content ---------------------
+    rm = re.search(r"@media \(prefers-reduced-motion: reduce\) \{(.*?)\n\t\}", css, re.DOTALL)
+    if rm:
+        block = rm.group(1)
+        if not re.search(r"#bg \{[^}]*animation: none", block):
+            failures.append(
+                "reduced motion does not stop #bg - a 60s infinite pan with no "
+                "opt-out is the one real accessibility defect on this page")
+        if "animation-fill-mode: forwards" not in block:
+            failures.append(
+                "reduced motion removes the entrance without animation-fill-mode: "
+                "forwards - content would never arrive at its settled state and "
+                "the page would render empty. Gentler, not zero.")
+
     for name, t in sorted(settle.items(), key=lambda kv: -kv[1]):
         print(f"  {name:<12} settles at {t:>6.0f}ms")
     print(f"  {'TOTAL':<12} {total:>13.0f}ms  (budget {BUDGET_MS}ms)")
@@ -83,4 +128,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else CSS))
