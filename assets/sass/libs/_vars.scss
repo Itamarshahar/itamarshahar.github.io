@@ -13,6 +13,11 @@
 		nav-icons:			0.3s
 	);
 
+// Easing.
+	$easing: (
+		out:				cubic-bezier(0.23, 1, 0.32, 1)
+	);
+
 // Size.
 	$size: (
 		nav-icon-wrapper:	5.35em,

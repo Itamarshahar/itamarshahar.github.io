@@ -38,7 +38,6 @@
 	// Entrance timeline. This is the only screen and it gates every link, so the
 	// whole sequence stays under 750ms: last nav icon settles at 0.65s
 	// (0.15s + 4 * 0.05s delay, + 0.3s duration).
-	$delay-wrapper:			0s;
 	$delay-overlay:			0s;
 	$delay-header:			0.1s;
 	$delay-nav-icons:		0.15s;
@@ -269,7 +268,7 @@
 	}
 
 	#header {
-		@include vendor('animation', 'header #{_duration(header)} #{$delay-header} cubic-bezier(0.23, 1, 0.32, 1) forwards');
+		@include vendor('animation', 'header #{_duration(header)} #{$delay-header} #{_easing(out)} forwards');
 		@include vendor('backface-visibility', 'hidden');
 		@include vendor('transform', 'translate3d(0,0,0)');
 		cursor: default;
@@ -298,7 +297,7 @@
 			margin: 1.5em 0 0 0;
 
 			li {
-				@include vendor('animation', 'nav-icons #{_duration(nav-icons)} cubic-bezier(0.23, 1, 0.32, 1) forwards');
+				@include vendor('animation', 'nav-icons #{_duration(nav-icons)} #{_easing(out)} forwards');
 				@include vendor('backface-visibility', 'hidden');
 				@include vendor('transform', 'translate3d(0,0,0)');
 				display: inline-block;
@@ -323,7 +322,7 @@
 				display: inline-block;
 
 				&:before {
-					@include vendor('transition', 'transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1)');
+					@include vendor('transition', 'transform 0.2s #{_easing(out)}, background-color 0.2s #{_easing(out)}, color 0.2s #{_easing(out)}');
 					border-radius: 100%;
 					border: solid 1px _palette(fg);
 					display: block;
