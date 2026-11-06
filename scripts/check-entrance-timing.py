@@ -10,11 +10,12 @@ accident and invisible in review: press and hover must move the compositor
 rather than the layout, hover must not fire on touch, and reduced motion must
 still deliver the content.
 
-Run:  python3 scripts/check-entrance-timing.py [path/to/main.css]
+Run:  python3 scripts/check-entrance-timing.py [main.css] [main.scss]
 
-The optional path exists so the assertions can be mutation-tested - pointed at
-a deliberately broken copy to prove each one actually fails. An assertion
-never seen to fail is not a test.
+The optional paths exist so every assertion can be mutation-tested - pointed
+at a deliberately broken copy to prove it actually fails. An assertion never
+seen to fail is not a test, and one that cannot be reached by any mutation is
+dead code wearing a test's clothes.
 """
 import re
 import sys
@@ -31,7 +32,7 @@ def ms(value: str) -> float:
     return float(value[:-2]) if value.endswith("ms") else float(value[:-1]) * 1000
 
 
-def main(css_path: pathlib.Path = CSS) -> int:
+def main(css_path: pathlib.Path = CSS, sass_path: pathlib.Path = SASS) -> int:
     css = css_path.read_text()
     failures = []
 
@@ -72,7 +73,7 @@ def main(css_path: pathlib.Path = CSS) -> int:
     # The compiled CSS repeats the easing at every site - that is just what a
     # compiler does. The source must not: this repo keeps shared values in
     # _vars.scss behind an accessor (_duration, _palette, _size ...).
-    raw_easing = len(re.findall(r"cubic-bezier\(", SASS.read_text()))
+    raw_easing = len(re.findall(r"cubic-bezier\(", sass_path.read_text()))
     if raw_easing:
         failures.append(
             f"{raw_easing} raw cubic-bezier literal(s) in assets/sass/main.scss - "
@@ -128,4 +129,7 @@ def main(css_path: pathlib.Path = CSS) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else CSS))
+    sys.exit(main(
+        pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else CSS,
+        pathlib.Path(sys.argv[2]) if len(sys.argv) > 2 else SASS,
+    ))
