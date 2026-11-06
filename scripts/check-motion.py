@@ -10,7 +10,7 @@ accident and invisible in review: press and hover must move the compositor
 rather than the layout, hover must not fire on touch, and reduced motion must
 still deliver the content.
 
-Run:  python3 scripts/check-entrance-timing.py [main.css] [main.scss]
+Run:  python3 scripts/check-motion.py [main.css] [main.scss]
 
 The optional paths exist so every assertion can be mutation-tested - pointed
 at a deliberately broken copy to prove it actually fails. An assertion never
