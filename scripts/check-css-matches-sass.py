@@ -59,14 +59,19 @@ def normalise(decl: str) -> str:
     return decl.replace("'", '"')
 
 
-def rules(text: str) -> dict[str, str]:
-    """selector -> normalised declarations, including inside @media blocks.
+def rules(text: str) -> dict[str, list[str]]:
+    """selector -> its declaration blocks in source order, @media included.
 
     Selectors inside an at-rule are keyed by their condition so a breakpoint
     override is never confused with the base rule of the same name.
+
+    A selector can legitimately appear more than once at the same key - `body`
+    does, four times - and the cascade means the later one only partly wins.
+    So the value is a list in document order, not one block: keeping only the
+    last would leave the earlier blocks uncompared, and drift in them unseen.
     """
     text = COMMENT.sub("", text)
-    found: dict[str, str] = {}
+    found: dict[str, list[str]] = {}
 
     def walk(body: str, prefix: str) -> None:
         i = 0
@@ -88,7 +93,7 @@ def rules(text: str) -> dict[str, str]:
                 ))
                 for s in (x.strip() for x in head.split(",")):
                     if s:
-                        found[prefix + re.sub(r"\s+", " ", s)] = decls
+                        found.setdefault(prefix + re.sub(r"\s+", " ", s), []).append(decls)
             i = j
 
     walk(text, "")
@@ -115,7 +120,10 @@ def main() -> int:
     for s in only_sass:
         failures.append(f"selector produced by the sass but missing from main.css: {s}")
     for s in changed:
-        failures.append(f"declarations differ for {s}\n      css:  {a[s][:160]}\n      sass: {b[s][:160]}")
+        failures.append(
+            f"declarations differ for {s}"
+            f"\n      css:  {' || '.join(a[s])[:200]}"
+            f"\n      sass: {' || '.join(b[s])[:200]}")
 
     # CSS-only content parked inside comments - invisible to the selector
     # comparison above, and exactly what a recompile would destroy.
@@ -140,5 +148,17 @@ def main() -> int:
     return 0
 
 
+def _self_test() -> None:
+    """One assertion, for the one thing in here that is not a straight read.
+
+    A selector repeated at the same key must keep both blocks: this returned
+    only `color: blue` until it didn't, and nothing in main.css would have
+    shown it - the duplicate `body` rules happened to agree on both sides.
+    """
+    assert rules("a { color: red; } a { color: blue; }") == {
+        "a": ["color: red", "color: blue"]}
+
+
 if __name__ == "__main__":
+    _self_test()
     sys.exit(main())
