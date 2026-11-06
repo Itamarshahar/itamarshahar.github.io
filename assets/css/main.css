@@ -336,10 +336,10 @@ input, select, textarea {
 	}
 
 	#overlay {
-		-moz-animation: overlay 0.6s forwards;
-		-webkit-animation: overlay 0.6s forwards;
-		-ms-animation: overlay 0.6s forwards;
-		animation: overlay 0.6s forwards;
+		-moz-animation: overlay 0.6s 0s forwards;
+		-webkit-animation: overlay 0.6s 0s forwards;
+		-ms-animation: overlay 0.6s 0s forwards;
+		animation: overlay 0.6s 0s forwards;
 		background-attachment: fixed, fixed;
 		background-image: url("images/overlay-pattern.png"), url("images/overlay.svg");
 		background-position: top left, center center;
@@ -659,9 +659,9 @@ input, select, textarea {
 			}
 
 				#header nav a:before {
-					-moz-transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-					-webkit-transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-					-ms-transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+					-moz-transition: -moz-transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+					-webkit-transition: -webkit-transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+					-ms-transition: -ms-transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 					transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 					border-radius: 100%;
 					border: solid 1px #fff;
@@ -1067,26 +1067,6 @@ input, select, textarea {
 		#header nav {
 			padding: 0 1em;
 		} }
-
-/*
-.resume-button {
-    display: inline-block;
-    padding: 12px 20px;
-    font-size: 1.2em;
-    color: white;
-    background: #007bff;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 20px;
-    transition: background 0.3s ease;
-    text-align: center;
-}
-
-.resume-button:hover {
-    background: #0056b3;
-}*/
-
 /* Reduced motion. */
 
 	@media (prefers-reduced-motion: reduce) {
