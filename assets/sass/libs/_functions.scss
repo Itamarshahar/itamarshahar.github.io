@@ -61,6 +61,13 @@
 	@return val($duration, $keys...);
 }
 
+/// Gets an easing value.
+/// @param {string} $keys Key(s).
+/// @return {string} Value.
+@function _easing($keys...) {
+	@return val($easing, $keys...);
+}
+
 /// Gets a font value.
 /// @param {string} $keys Key(s).
 /// @return {string} Value.
