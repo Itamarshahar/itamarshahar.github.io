@@ -87,17 +87,6 @@ input, select, textarea {
 		overflow: hidden;
 	}
 
-		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
-			-moz-animation: none !important;
-			-webkit-animation: none !important;
-			-ms-animation: none !important;
-			animation: none !important;
-			-moz-transition: none !important;
-			-webkit-transition: none !important;
-			-ms-transition: none !important;
-			transition: none !important;
-		}
-
 	body, input, select, textarea {
 		color: #fff;
 		font-family: 'Source Sans Pro', sans-serif;
@@ -197,10 +186,10 @@ input, select, textarea {
 	}
 
 	#wrapper {
-		-moz-animation: wrapper 3s forwards;
-		-webkit-animation: wrapper 3s forwards;
-		-ms-animation: wrapper 3s forwards;
-		animation: wrapper 3s forwards;
+		-moz-animation: wrapper 0.5s forwards;
+		-webkit-animation: wrapper 0.5s forwards;
+		-ms-animation: wrapper 0.5s forwards;
+		animation: wrapper 0.5s forwards;
 		height: 100%;
 		left: 0;
 		opacity: 0;
@@ -347,10 +336,10 @@ input, select, textarea {
 	}
 
 	#overlay {
-		-moz-animation: overlay 1.5s 1.5s forwards;
-		-webkit-animation: overlay 1.5s 1.5s forwards;
-		-ms-animation: overlay 1.5s 1.5s forwards;
-		animation: overlay 1.5s 1.5s forwards;
+		-moz-animation: overlay 0.6s forwards;
+		-webkit-animation: overlay 0.6s forwards;
+		-ms-animation: overlay 0.6s forwards;
+		animation: overlay 0.6s forwards;
 		background-attachment: fixed, fixed;
 		background-image: url("images/overlay-pattern.png"), url("images/overlay.svg");
 		background-position: top left, center center;
@@ -531,10 +520,10 @@ input, select, textarea {
 	}
 
 	#header {
-		-moz-animation: header 1s 2.25s forwards;
-		-webkit-animation: header 1s 2.25s forwards;
-		-ms-animation: header 1s 2.25s forwards;
-		animation: header 1s 2.25s forwards;
+		-moz-animation: header 0.4s 0.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+		-webkit-animation: header 0.4s 0.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+		-ms-animation: header 0.4s 0.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+		animation: header 0.4s 0.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 		-moz-backface-visibility: hidden;
 		-webkit-backface-visibility: hidden;
 		-ms-backface-visibility: hidden;
@@ -571,10 +560,10 @@ input, select, textarea {
 		}
 
 			#header nav li {
-				-moz-animation: nav-icons 0.5s ease-in-out forwards;
-				-webkit-animation: nav-icons 0.5s ease-in-out forwards;
-				-ms-animation: nav-icons 0.5s ease-in-out forwards;
-				animation: nav-icons 0.5s ease-in-out forwards;
+				-moz-animation: nav-icons 0.3s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+				-webkit-animation: nav-icons 0.3s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+				-ms-animation: nav-icons 0.3s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+				animation: nav-icons 0.3s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 				-moz-backface-visibility: hidden;
 				-webkit-backface-visibility: hidden;
 				-ms-backface-visibility: hidden;
@@ -593,73 +582,73 @@ input, select, textarea {
 			}
 
 				#header nav li:nth-child(1) {
-					-moz-animation-delay: 2.5s;
-					-webkit-animation-delay: 2.5s;
-					-ms-animation-delay: 2.5s;
-					animation-delay: 2.5s;
+					-moz-animation-delay: 0.2s;
+					-webkit-animation-delay: 0.2s;
+					-ms-animation-delay: 0.2s;
+					animation-delay: 0.2s;
 				}
 
 				#header nav li:nth-child(2) {
-					-moz-animation-delay: 2.75s;
-					-webkit-animation-delay: 2.75s;
-					-ms-animation-delay: 2.75s;
-					animation-delay: 2.75s;
+					-moz-animation-delay: 0.25s;
+					-webkit-animation-delay: 0.25s;
+					-ms-animation-delay: 0.25s;
+					animation-delay: 0.25s;
 				}
 
 				#header nav li:nth-child(3) {
-					-moz-animation-delay: 3s;
-					-webkit-animation-delay: 3s;
-					-ms-animation-delay: 3s;
-					animation-delay: 3s;
+					-moz-animation-delay: 0.3s;
+					-webkit-animation-delay: 0.3s;
+					-ms-animation-delay: 0.3s;
+					animation-delay: 0.3s;
 				}
 
 				#header nav li:nth-child(4) {
-					-moz-animation-delay: 3.25s;
-					-webkit-animation-delay: 3.25s;
-					-ms-animation-delay: 3.25s;
-					animation-delay: 3.25s;
+					-moz-animation-delay: 0.35s;
+					-webkit-animation-delay: 0.35s;
+					-ms-animation-delay: 0.35s;
+					animation-delay: 0.35s;
 				}
 
 				#header nav li:nth-child(5) {
-					-moz-animation-delay: 3.5s;
-					-webkit-animation-delay: 3.5s;
-					-ms-animation-delay: 3.5s;
-					animation-delay: 3.5s;
+					-moz-animation-delay: 0.4s;
+					-webkit-animation-delay: 0.4s;
+					-ms-animation-delay: 0.4s;
+					animation-delay: 0.4s;
 				}
 
 				#header nav li:nth-child(6) {
-					-moz-animation-delay: 3.75s;
-					-webkit-animation-delay: 3.75s;
-					-ms-animation-delay: 3.75s;
-					animation-delay: 3.75s;
+					-moz-animation-delay: 0.45s;
+					-webkit-animation-delay: 0.45s;
+					-ms-animation-delay: 0.45s;
+					animation-delay: 0.45s;
 				}
 
 				#header nav li:nth-child(7) {
-					-moz-animation-delay: 4s;
-					-webkit-animation-delay: 4s;
-					-ms-animation-delay: 4s;
-					animation-delay: 4s;
+					-moz-animation-delay: 0.5s;
+					-webkit-animation-delay: 0.5s;
+					-ms-animation-delay: 0.5s;
+					animation-delay: 0.5s;
 				}
 
 				#header nav li:nth-child(8) {
-					-moz-animation-delay: 4.25s;
-					-webkit-animation-delay: 4.25s;
-					-ms-animation-delay: 4.25s;
-					animation-delay: 4.25s;
+					-moz-animation-delay: 0.55s;
+					-webkit-animation-delay: 0.55s;
+					-ms-animation-delay: 0.55s;
+					animation-delay: 0.55s;
 				}
 
 				#header nav li:nth-child(9) {
-					-moz-animation-delay: 4.5s;
-					-webkit-animation-delay: 4.5s;
-					-ms-animation-delay: 4.5s;
-					animation-delay: 4.5s;
+					-moz-animation-delay: 0.6s;
+					-webkit-animation-delay: 0.6s;
+					-ms-animation-delay: 0.6s;
+					animation-delay: 0.6s;
 				}
 
 				#header nav li:nth-child(10) {
-					-moz-animation-delay: 4.75s;
-					-webkit-animation-delay: 4.75s;
-					-ms-animation-delay: 4.75s;
-					animation-delay: 4.75s;
+					-moz-animation-delay: 0.65s;
+					-webkit-animation-delay: 0.65s;
+					-ms-animation-delay: 0.65s;
+					animation-delay: 0.65s;
 				}
 
 			#header nav a {
@@ -670,10 +659,10 @@ input, select, textarea {
 			}
 
 				#header nav a:before {
-					-moz-transition: all 0.2s ease-in-out;
-					-webkit-transition: all 0.2s ease-in-out;
-					-ms-transition: all 0.2s ease-in-out;
-					transition: all 0.2s ease-in-out;
+					-moz-transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+					-webkit-transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+					-ms-transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+					transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 					border-radius: 100%;
 					border: solid 1px #fff;
 					display: block;
@@ -686,21 +675,29 @@ input, select, textarea {
 					width: 2.5em;
 				}
 
-				#header nav a:hover {
-					font-size: 1.1em;
-				}
+				@media (hover: hover) and (pointer: fine) {
 
 					#header nav a:hover:before {
+						-moz-transform: scale(1.1);
+						-webkit-transform: scale(1.1);
+						-ms-transform: scale(1.1);
+						transform: scale(1.1);
 						background-color: rgba(255, 255, 255, 0.175);
 						color: #fff;
 					}
 
+				}
+
 				#header nav a:active {
-					font-size: 0.95em;
 					background: none;
 				}
 
 					#header nav a:active:before {
+						-moz-transform: scale(0.97);
+						-webkit-transform: scale(0.97);
+						-ms-transform: scale(0.97);
+						transform: scale(0.97);
+						transition-duration: 0.16s;
 						background-color: rgba(255, 255, 255, 0.35);
 						color: #fff;
 					}
@@ -988,15 +985,7 @@ input, select, textarea {
 
 		#header nav {
 			font-size: 1em;
-		}
-
-			#header nav a:hover {
-				font-size: 1em;
-			}
-
-			#header nav a:active {
-				font-size: 1em;
-			} }
+		} }
 
 /* Mobile (Portrait) */
 
@@ -1097,3 +1086,23 @@ input, select, textarea {
 .resume-button:hover {
     background: #0056b3;
 }*/
+
+/* Reduced motion. */
+
+	@media (prefers-reduced-motion: reduce) {
+
+		#bg {
+			animation: none !important;
+		}
+
+		#wrapper, #overlay, #header, #header nav li {
+			animation-duration: 1ms !important;
+			animation-delay: 0s !important;
+			animation-fill-mode: forwards !important;
+		}
+
+		#header nav a:before {
+			transition: none !important;
+		}
+
+	}
