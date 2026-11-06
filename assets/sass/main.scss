@@ -35,11 +35,14 @@
 		}
 	}
 
-	$delay-wrapper:			_duration(wrapper) - 1s;
-	$delay-overlay:			$delay-wrapper - 0.5s;
-	$delay-header:			$delay-overlay + _duration(overlay) - 0.75s;
-	$delay-nav-icons:		$delay-header + _duration(header) - 1s;
-	$delay-nav-icon:		0.25s;
+	// Entrance timeline. This is the only screen and it gates every link, so the
+	// whole sequence stays under 750ms: last nav icon settles at 0.65s
+	// (0.15s + 4 * 0.05s delay, + 0.3s duration).
+	$delay-wrapper:			0s;
+	$delay-overlay:			0s;
+	$delay-header:			0.1s;
+	$delay-nav-icons:		0.15s;
+	$delay-nav-icon:		0.05s;
 
 // Reset.
 // Based on meyerweb.com/eric/tools/css/reset (v2.0 | 20110126 | License: public domain)
@@ -127,14 +130,6 @@
 	body {
 		background: _palette(bg);
 		overflow: hidden;
-
-		// Stops initial animations until page loads.
-			&.is-preload {
-				*, *:before, *:after {
-					@include vendor('animation', 'none !important');
-					@include vendor('transition', 'none !important');
-				}
-			}
 
 	}
 
@@ -274,7 +269,7 @@
 	}
 
 	#header {
-		@include vendor('animation', 'header #{_duration(header)} #{$delay-header} forwards');
+		@include vendor('animation', 'header #{_duration(header)} #{$delay-header} cubic-bezier(0.23, 1, 0.32, 1) forwards');
 		@include vendor('backface-visibility', 'hidden');
 		@include vendor('transform', 'translate3d(0,0,0)');
 		cursor: default;
@@ -303,7 +298,7 @@
 			margin: 1.5em 0 0 0;
 
 			li {
-				@include vendor('animation', 'nav-icons #{_duration(nav-icons)} ease-in-out forwards');
+				@include vendor('animation', 'nav-icons #{_duration(nav-icons)} cubic-bezier(0.23, 1, 0.32, 1) forwards');
 				@include vendor('backface-visibility', 'hidden');
 				@include vendor('transform', 'translate3d(0,0,0)');
 				display: inline-block;
@@ -328,7 +323,7 @@
 				display: inline-block;
 
 				&:before {
-					@include vendor('transition', 'all 0.2s ease-in-out');
+					@include vendor('transition', 'transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1)');
 					border-radius: 100%;
 					border: solid 1px _palette(fg);
 					display: block;
@@ -341,20 +336,20 @@
 					width: 2.5em;
 				}
 
-				&:hover {
-					font-size: 1.1em;
-
-					&:before {
+				@media (hover: hover) and (pointer: fine) {
+					&:hover:before {
+						@include vendor('transform', 'scale(1.1)');
 						background-color: _palette(nav-icon, hover-bg);
 						color: _palette(nav-icon, hover-fg);
 					}
 				}
 
 				&:active {
-					font-size: 0.95em;
 					background: none;
 
 					&:before {
+						@include vendor('transform', 'scale(0.97)');
+						transition-duration: 0.16s;
 						background-color: _palette(nav-icon, active-bg);
 						color: _palette(nav-icon, active-fg);
 					}
@@ -444,16 +439,6 @@
 
 				nav {
 					font-size: 1em;
-
-					a {
-						&:hover {
-							font-size: 1em;
-						}
-
-						&:active {
-							font-size: 1em;
-						}
-					}
 				}
 			}
 
@@ -474,5 +459,28 @@
 					padding: 0 1em;
 				}
 			}
+
+	}
+
+/* Reduced motion. */
+
+	// Content still arrives at its settled state - just instantly, with no
+	// travel. The 60s background pan stops entirely: it is the one piece of
+	// motion on this page that never ends.
+	@media (prefers-reduced-motion: reduce) {
+
+		#bg {
+			animation: none !important;
+		}
+
+		#wrapper, #overlay, #header, #header nav li {
+			animation-duration: 1ms !important;
+			animation-delay: 0s !important;
+			animation-fill-mode: forwards !important;
+		}
+
+		#header nav a:before {
+			transition: none !important;
+		}
 
 	}
