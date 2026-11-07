@@ -9,7 +9,28 @@
 		<title>Itamar Shahar</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- These three stylesheets are siblings, not a chain. Two of them used
+		     to be `@import url(...)` at the top of main.css, which the preload
+		     scanner cannot see: the browser only learned they existed after
+		     fetching and parsing main.css, then had to go back out for the font
+		     files they named. Measured first paint was 1432ms. -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/fontawesome-all.min.css" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,900&amp;display=swap" />
+
+		<!-- The four nav links are Font Awesome glyphs, so nothing in the nav
+		     paints until these arrive - and being named inside a stylesheet,
+		     they were not requested until 813ms. `crossorigin` is required even
+		     same-origin: font fetches are always CORS, and without it the
+		     preload is discarded and the file fetched twice. -->
+		<link rel="preload" href="assets/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href="assets/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href="assets/css/images/bg.jpg" as="image" />
+
+		<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 	</head>
 	<body>
 		<div id="wrapper">
@@ -25,7 +46,7 @@
 					    <ul>
 					        <li><a href="https://www.linkedin.com/in/itamarshahar/" class="icon brands fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
 					        <li><a href="https://github.com/Itamarshahar" class="icon brands fa-github" target="_blank"><span class="label">GitHub</span></a></li>
-					        <li><a href="mailto:itamar.shahar2@gmail.com" class="icon solid fa-envelope" target="_blank"><span class="label">Email</span></a></li>
+					        <li><a href="mailto:itamar.shahar2@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
 					        <li><a href="assets/Itamar_Shahar's_Resume.pdf" class="icon solid fa-file" target="_blank"><span class="label">Resume</span></a></li>
 					    </ul>
 					</nav>

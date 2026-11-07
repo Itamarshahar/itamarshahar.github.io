@@ -1,5 +1,7 @@
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,900");
-@import url("fontawesome-all.min.css");
+/* The webfont and Font Awesome stylesheets used to be @import-ed here. A CSS
+   @import is invisible to the preload scanner, so the browser could not learn
+   either existed until it had fetched and parsed this file - a serial chain
+   that measured 1432ms to first paint. They are <link>s in index.html now. */
 
 /*
 	Aerial by HTML5 UP
@@ -447,6 +449,24 @@ input, select, textarea {
 		}
 	}
 
+	@-moz-keyframes tagline {
+		0% {
+			-moz-transform: translate3d(0,1em,0);
+			-webkit-transform: translate3d(0,1em,0);
+			-ms-transform: translate3d(0,1em,0);
+			transform: translate3d(0,1em,0);
+			opacity: 0;
+		}
+
+		100% {
+			-moz-transform: translate3d(0,0,0);
+			-webkit-transform: translate3d(0,0,0);
+			-ms-transform: translate3d(0,0,0);
+			transform: translate3d(0,0,0);
+			opacity: 0.75;
+		}
+	}
+
 	@-moz-keyframes nav-icons {
 		0% {
 			-moz-transform: translate3d(0,1em,0);
@@ -462,6 +482,24 @@ input, select, textarea {
 			-ms-transform: translate3d(0,0,0);
 			transform: translate3d(0,0,0);
 			opacity: 1;
+		}
+	}
+
+	@-webkit-keyframes tagline {
+		0% {
+			-moz-transform: translate3d(0,1em,0);
+			-webkit-transform: translate3d(0,1em,0);
+			-ms-transform: translate3d(0,1em,0);
+			transform: translate3d(0,1em,0);
+			opacity: 0;
+		}
+
+		100% {
+			-moz-transform: translate3d(0,0,0);
+			-webkit-transform: translate3d(0,0,0);
+			-ms-transform: translate3d(0,0,0);
+			transform: translate3d(0,0,0);
+			opacity: 0.75;
 		}
 	}
 
@@ -483,6 +521,24 @@ input, select, textarea {
 		}
 	}
 
+	@-ms-keyframes tagline {
+		0% {
+			-moz-transform: translate3d(0,1em,0);
+			-webkit-transform: translate3d(0,1em,0);
+			-ms-transform: translate3d(0,1em,0);
+			transform: translate3d(0,1em,0);
+			opacity: 0;
+		}
+
+		100% {
+			-moz-transform: translate3d(0,0,0);
+			-webkit-transform: translate3d(0,0,0);
+			-ms-transform: translate3d(0,0,0);
+			transform: translate3d(0,0,0);
+			opacity: 0.75;
+		}
+	}
+
 	@-ms-keyframes nav-icons {
 		0% {
 			-moz-transform: translate3d(0,1em,0);
@@ -498,6 +554,24 @@ input, select, textarea {
 			-ms-transform: translate3d(0,0,0);
 			transform: translate3d(0,0,0);
 			opacity: 1;
+		}
+	}
+
+	@keyframes tagline {
+		0% {
+			-moz-transform: translate3d(0,1em,0);
+			-webkit-transform: translate3d(0,1em,0);
+			-ms-transform: translate3d(0,1em,0);
+			transform: translate3d(0,1em,0);
+			opacity: 0;
+		}
+
+		100% {
+			-moz-transform: translate3d(0,0,0);
+			-webkit-transform: translate3d(0,0,0);
+			-ms-transform: translate3d(0,0,0);
+			transform: translate3d(0,0,0);
+			opacity: 0.75;
 		}
 	}
 
@@ -520,10 +594,6 @@ input, select, textarea {
 	}
 
 	#header {
-		-moz-animation: header 0.4s 0.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-		-webkit-animation: header 0.4s 0.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-		-ms-animation: header 0.4s 0.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-		animation: header 0.4s 0.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 		-moz-backface-visibility: hidden;
 		-webkit-backface-visibility: hidden;
 		-ms-backface-visibility: hidden;
@@ -534,7 +604,6 @@ input, select, textarea {
 		transform: translate3d(0,0,0);
 		cursor: default;
 		display: inline-block;
-		opacity: 0;
 		position: relative;
 		text-align: center;
 		top: -1em;
@@ -543,16 +612,25 @@ input, select, textarea {
 	}
 
 		#header h1 {
+			-moz-animation: header 0.4s 0.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+			-webkit-animation: header 0.4s 0.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+			-ms-animation: header 0.4s 0.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+			animation: header 0.4s 0.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 			font-size: 4.35em;
 			font-weight: 900;
 			letter-spacing: -0.035em;
 			line-height: 1em;
+			opacity: 0;
 		}
 
 		#header p {
+			-moz-animation: tagline 0.4s 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+			-webkit-animation: tagline 0.4s 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+			-ms-animation: tagline 0.4s 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+			animation: tagline 0.4s 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 			font-size: 1.25em;
 			margin: 0.75em 0 0.25em 0;
-			opacity: 0.75;
+			opacity: 0;
 		}
 
 		#header nav {
@@ -659,10 +737,10 @@ input, select, textarea {
 			}
 
 				#header nav a:before {
-					-moz-transition: -moz-transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-					-webkit-transition: -webkit-transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-					-ms-transition: -ms-transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-					transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+					-moz-transition: -moz-transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+					-webkit-transition: -webkit-transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+					-ms-transition: -ms-transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+					transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1), color 0.2s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 					border-radius: 100%;
 					border: solid 1px #fff;
 					display: block;
@@ -687,6 +765,20 @@ input, select, textarea {
 					}
 
 				}
+
+				#header nav a:focus-visible {
+					outline: 0;
+				}
+
+					#header nav a:focus-visible:before {
+						-moz-transform: scale(1.1);
+						-webkit-transform: scale(1.1);
+						-ms-transform: scale(1.1);
+						transform: scale(1.1);
+						background-color: rgba(255, 255, 255, 0.175);
+						color: #fff;
+						box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.65);
+					}
 
 				#header nav a:active {
 					background: none;
@@ -1075,7 +1167,7 @@ input, select, textarea {
 			animation: none !important;
 		}
 
-		#wrapper, #overlay, #header, #header nav li {
+		#wrapper, #overlay, #header h1, #header p, #header nav li {
 			animation-duration: 1ms !important;
 			animation-delay: 0s !important;
 			animation-fill-mode: forwards !important;

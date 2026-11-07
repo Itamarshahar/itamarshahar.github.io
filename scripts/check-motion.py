@@ -101,6 +101,54 @@ def main(css_path: pathlib.Path = CSS, sass_path: pathlib.Path = SASS) -> int:
     if not re.search(r"#header nav a:active:before \{[^}]*transition-duration: 0\.16s", css):
         failures.append("press feedback is not 160ms")
 
+    # --- Row 5: three beats, read in the order the page is read ---------------
+    # The name, then what he does, then where to find him. These used to arrive
+    # together because #header animated as one block; separating them must not
+    # cost any time, so the tagline still has to settle inside the nav's 650ms.
+    beats = {}
+    for sel, name in (("#header h1", "header"), ("#header p", "tagline")):
+        m = re.search(rf"{re.escape(sel)} \{{[^}}]*?\n\t*animation: {name} "
+                      r"(\d*\.?\d+m?s) (\d*\.?\d+m?s)", css)
+        if m:
+            beats[sel] = ms(m.group(1)) + ms(m.group(2))
+        else:
+            failures.append(
+                f"{sel} has no `animation: {name} <duration> <delay>` - the "
+                "three-beat header entrance is gone")
+    if len(beats) == 2:
+        if not beats["#header h1"] < beats["#header p"]:
+            failures.append(
+                f"the name settles at {beats['#header h1']:.0f}ms and the tagline at "
+                f"{beats['#header p']:.0f}ms - the name must land first, it is why "
+                "anyone is on this page")
+        if beats["#header p"] > settle.get("nav-icons", 0.0):
+            failures.append(
+                f"tagline settles at {beats['#header p']:.0f}ms, after the nav icons at "
+                f"{settle.get('nav-icons', 0):.0f}ms - splitting the header was supposed "
+                "to be free, and this makes it cost time")
+
+    if re.search(r"\n\t#header \{[^}]*animation:", css):
+        failures.append(
+            "#header animates again as well as its children - the two opacities "
+            "multiply and the name fades in twice over")
+
+    if not re.search(r"@keyframes tagline \{.*?100% \{[^}]*opacity: 0\.75", css, re.DOTALL):
+        failures.append(
+            "the tagline keyframe does not end at opacity 0.75 - it is meant to "
+            "rest quieter than the name, and ending at 1 brightens it silently")
+
+    # --- Row 6: keyboard users get the feedback mouse users already had -------
+    if not re.search(r"#header nav a:focus-visible:before \{[^}]*transform: scale\(", css):
+        failures.append(
+            "no #header nav a:focus-visible:before with a transform - keyboard "
+            "focus falls back to an outline around the anchor box, not the circle")
+    hover_q = re.search(r"@media \(hover: hover\) and \(pointer: fine\) \{(.*?)\n\t\t\t\t\}",
+                        css, re.DOTALL)
+    if hover_q and "focus-visible" in hover_q.group(1):
+        failures.append(
+            "focus-visible is inside the (hover: hover) query - a keyboard "
+            "reaches touch devices too, and there it would never match")
+
     # --- Row 4: reduced motion still delivers the content ---------------------
     rm = re.search(r"@media \(prefers-reduced-motion: reduce\) \{(.*?)\n\t\}", css, re.DOTALL)
     if rm:
@@ -109,6 +157,12 @@ def main(css_path: pathlib.Path = CSS, sass_path: pathlib.Path = SASS) -> int:
             failures.append(
                 "reduced motion does not stop #bg - a 60s infinite pan with no "
                 "opt-out is the one real accessibility defect on this page")
+        for sel in ("#header h1", "#header p"):
+            if sel not in block:
+                failures.append(
+                    f"reduced motion does not cover {sel} - it starts at opacity 0 "
+                    "and only its animation brings it in, so these users would get "
+                    "a page with no name on it")
         if "animation-fill-mode: forwards" not in block:
             failures.append(
                 "reduced motion removes the entrance without animation-fill-mode: "
