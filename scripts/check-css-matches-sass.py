@@ -79,7 +79,11 @@ def rules(text: str) -> dict[str, list[str]]:
             brace = body.find("{", i)
             if brace == -1:
                 return
-            head = body[i:brace].strip()
+            # Statement at-rules (@import, @charset) end in `;` and own no
+            # block. Everything after the last one is the real selector: take
+            # it, or `@import url("x.css"); a { ... }` reads as an at-rule
+            # wrapper around `a` and the whole rule vanishes from the compare.
+            head = body[i:brace].split(";")[-1].strip()
             depth, j = 1, brace + 1
             while j < len(body) and depth:
                 depth += (body[j] == "{") - (body[j] == "}")
@@ -157,6 +161,12 @@ def _self_test() -> None:
     """
     assert rules("a { color: red; } a { color: blue; }") == {
         "a": ["color: red", "color: blue"]}
+
+    # A statement at-rule before the first selector must not swallow it. Two
+    # @imports at the top of main.css hid its entire 61-selector reset block
+    # from this check, and it reported "162 selectors" as though that were all.
+    assert rules('@import url("x.css");\na { color: red; }') == {
+        "a": ["color: red"]}
 
 
 if __name__ == "__main__":
