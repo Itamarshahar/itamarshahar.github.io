@@ -149,6 +149,34 @@ def main(css_path: pathlib.Path = CSS, sass_path: pathlib.Path = SASS) -> int:
             "focus-visible is inside the (hover: hover) query - a keyboard "
             "reaches touch devices too, and there it would never match")
 
+    # --- Row 7: the nav labels are revealed, not deleted ----------------------
+    # The markup has always carried <span class="label">LinkedIn</span> and the
+    # stylesheet has always thrown it away with display:none - which takes it
+    # out of the accessibility tree too, so all four links computed to
+    # `link ""` and a screen reader read the raw URL. The reveal therefore has
+    # to be done with opacity: display and visibility would hide it from the
+    # a11y tree again and trade one defect for the same one.
+    if re.search(r"#header nav a > \.label \{[^}]*(display: none|visibility: hidden)", css):
+        failures.append(
+            "the nav label is hidden with display/visibility - that strips the "
+            "link's accessible name and all four links announce as `link \"\"`; "
+            "hide it with opacity so it stays in the a11y tree")
+    label = re.search(r"#header nav a > \.label \{([^}]*)\}", css)
+    if not label:
+        failures.append(
+            "no `#header nav a > .label` rule - the four circles carry no visible "
+            "or announced name, which is a guessing game for everyone")
+    else:
+        if "opacity: 0" not in label.group(1):
+            failures.append("the nav label does not start at opacity 0 - it has nothing to reveal")
+        if "transition" not in label.group(1):
+            failures.append("the nav label reveal has no transition - it will pop")
+    for state in ("hover", "focus-visible"):
+        if not re.search(rf"#header nav a:{re.escape(state)} > \.label \{{[^}}]*opacity: 1", css):
+            failures.append(
+                f"the nav label is not revealed on :{state} - pointer users and "
+                "keyboard users both need to know which circle is which")
+
     # --- Row 4: reduced motion still delivers the content ---------------------
     rm = re.search(r"@media \(prefers-reduced-motion: reduce\) \{(.*?)\n\t\}", css, re.DOTALL)
     if rm:
