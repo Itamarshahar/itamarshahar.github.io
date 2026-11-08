@@ -169,8 +169,13 @@
 		@include icon;
 		position: relative;
 
+		// Not display:none. That takes the span out of the accessibility
+		// tree as well as off the screen, and since the glyph is CSS
+		// ::before content - which is not an accessible name - every one
+		// of these links computed to `link ""`. Opacity hides it from
+		// sight while leaving the name for a screen reader to announce.
 		> .label {
-			display: none;
+			opacity: 0;
 		}
 
 		&.solid {
@@ -392,8 +397,36 @@
 					}
 				}
 
-				span {
-					display: none;
+				// The markup has always carried these names; the stylesheet
+				// threw them away. Revealed on hover and on focus they stop
+				// four unlabelled circles being a guessing game - and the
+				// Resume one opens a PDF, which is worth knowing beforehand.
+				> .label {
+					@include vendor('transition', 'opacity 0.15s #{_easing(out)}, transform 0.15s #{_easing(out)}');
+					@include vendor('transform', 'translate(-50%, 0.25em)');
+					display: block;
+					font-size: 0.8rem;
+					left: 50%;
+					letter-spacing: 0.05em;
+					line-height: 1;
+					opacity: 0;
+					pointer-events: none;
+					position: absolute;
+					text-transform: uppercase;
+					top: 100%;
+					white-space: nowrap;
+				}
+
+				@media (hover: hover) and (pointer: fine) {
+					&:hover > .label {
+						@include vendor('transform', 'translate(-50%, 0)');
+						opacity: 1;
+					}
+				}
+
+				&:focus-visible > .label {
+					@include vendor('transform', 'translate(-50%, 0)');
+					opacity: 1;
 				}
 			}
 		}
@@ -516,7 +549,7 @@
 			animation-fill-mode: forwards !important;
 		}
 
-		#header nav a:before {
+		#header nav a:before, #header nav a > .label {
 			transition: none !important;
 		}
 
